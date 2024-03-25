@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <UHeader></UHeader>
-    <UMain></UMain>
-    <UFooter></UFooter>
-  </div>
+  <div class="border min-h-screen"></div>
 </template>
 
 <script setup lang="ts">

@@ -2,10 +2,15 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
-    "@nuxt/image",
     "@nuxt/ui",
+    "@nuxt/fonts",
+    "@nuxt/image",
     "@nuxt/content",
-    "@nuxt/test-utils",
-    "@nuxt/fonts"
-  ]
+    "@nuxt/test-utils"
+  ],
+  ui: {},
+  content: {},
+  colorMode: {
+    preference: 'dark'
+  },
 })
