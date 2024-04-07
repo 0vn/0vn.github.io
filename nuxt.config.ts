@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/fonts",
     "@nuxt/image",
+    "@nuxt/eslint",
     "@nuxt/content",
     "@nuxt/test-utils"
   ],
@@ -13,4 +14,5 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'dark'
   },
+  eslint: {}
 })
