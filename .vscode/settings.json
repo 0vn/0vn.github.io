@@ -1,0 +1,7 @@
+{
+  // 启用ESlint平面配置支持
+  "eslint.experimental.useFlatConfig": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+}
