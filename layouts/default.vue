@@ -1,59 +1,95 @@
 <template>
-  <div id="layout" class="min-h-screen relative">
-    <header class="h-16 p-4 bg-background/75 backdrop-blur border-b -mb-px sticky top-0 z-50 border-gray-200 dark:border-gray-800">
-      <UHorizontalNavigation :links="links">
-        <template #default="{ link }">
-          <span class="group-hover:text-primary relative" @click="click(link.label)">{{ link.label }}</span>
+  <div
+    id="layout"
+    class="min-h-screen relative"
+  >
+    <header class="backdrop-blur border-b -mb-px sticky top-0 z-50 border-primary-200/75 dark:border-primary-900/50 bg-gray-500/10 dark:bg-gray-800/10">
+      <UHeader>
+        <template #left>
+          <img src="/favicon.ico">
         </template>
-      </UHorizontalNavigation>
+        <template #center>
+          <UTabs
+            :items="items"
+            :default-index="currentTab"
+            @change="changeTabs"
+          />
+        </template>
+        <template #right>
+          <UButton
+            :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
+            color="gray"
+            variant="ghost"
+            aria-label="Theme"
+            @click="isDark = !isDark"
+          />
+        </template>
+      </UHeader>
     </header>
-    <main class="pt-4 pb-16">
+    <main class="pt-4 pb-20">
       <UContainer>
         <slot />
       </UContainer>
     </main>
-    <footer class=" w-full h-16 p-4 bg-background/75 backdrop-blur border -mt-px absolute bottom-0 z-50 border-gray-200 dark:border-gray-800">
-      <UPlaceholder />
+    <footer class=" w-full h-16 p-4 backdrop-blur border -mt-px absolute bottom-0 z-50 border-primary-200/75 dark:border-primary-900/50">
+      <UFooter />
     </footer>
   </div>
 </template>
 
 <script setup lang="ts">
-const colorMode = useColorMode()
-const isDark = computed({
-  get () {
-    return colorMode.value === 'dark'
+const items = [
+  {
+    index: 0,
+    label: '首页',
+    path: '/',
   },
-  set () {
-    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-  }
-})
-
-const links = [
-  [{
-    label: 'Installation',
-    icon: 'i-heroicons-home',
-    to: '/'
-  }, {
-    label: 'Horizontal Navigation',
-    icon: 'i-heroicons-chart-bar'
-  }, {
-    label: 'CSS',
-    icon: 'i-heroicons-command-line',
-    to: '/css'
-  }],
-  [{
-    label: 'theme',
-    icon: isDark.value ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'
-  }, {
-    label: 'Help',
-    icon: 'i-heroicons-question-mark-circle'
-  }]
+  {
+    index: 1,
+    label: '开机启动',
+    path: '/work',
+  },
+  {
+    index: 2,
+    label: '文档资料',
+    path: '/doc',
+  },
+  {
+    index: 3,
+    label: '上班摸鱼',
+    path: '/happy',
+  },
+  {
+    index: 4,
+    label: '杂七杂八',
+    path: '/z7z8',
+  },
 ]
 
-const click = (label: string) => {
-  if (label == 'theme') {
-    isDark.value = !isDark.value;
-  }
-};
+const router = useRouter()
+const currentTab = items.filter(item => item.path == router.currentRoute.value.path)[0].index
+
+const changeTabs = (index: number) => {
+  const item = items[index]
+
+  router.push({
+    path: item.path,
+  })
+}
+
+const colorMode = useColorMode()
+const isDark = computed({
+  get() {
+    return colorMode.value === 'dark'
+  },
+  set() {
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  },
+})
 </script>
+
+<style>
+#layout > header > div > div.items-center.gap-x-8.hidden.lg\:flex > div > div:nth-child(2) {
+  display: none;
+}
+</style>
