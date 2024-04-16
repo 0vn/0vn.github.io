@@ -14,26 +14,26 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "20"
-      # 选择包管理器和构建脚本
+      # Pick your own package manager and build script
       - run: npm install
       - run: npx nuxt build --preset github_pages
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./.output/public
-  # 部署工作
+  # Deployment job
   deploy:
-    # 向构建作业添加依赖项
+    # Add a dependency to the build job
     needs: build
-    # 授予GITHUB_TOKEN进行Pages部署所需的权限
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write      # 部署到页面
-      id-token: write   # 验证部署来自适当的源
-    # 部署到github_pages环境
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    # Deploy to the github_pages environment
     environment:
       name: github_pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # 指定运行器+部署步骤
+    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
